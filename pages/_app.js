@@ -1,36 +1,41 @@
-import { WagmiConfig, createConfig, configureChains } from 'wagmi'
-import { sepolia } from 'wagmi/chains'
-import { publicProvider } from 'wagmi/providers/public'
-import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit'
-import '@rainbow-me/rainbowkit/styles.css'
-import { ChakraProvider } from '@chakra-ui/react'
 
-const { chains, publicClient } = configureChains(
-  [sepolia],
-  [publicProvider()]
-)
+import { WagmiProvider, createConfig, http } from 'wagmi';
+import { sepolia } from 'wagmi/chains';
+import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit';
+import '@rainbow-me/rainbowkit/styles.css';
+import { ChakraProvider } from '@chakra-ui/react';
 
-// This is a CRUCIAL step. You need your own Project ID.
+// Setup the config with the new `http` transport
+const config = createConfig({
+  chains: [sepolia],
+  transports: {
+    [sepolia.id]: http()
+  },
+});
+
+// Get connectors from RainbowKit
 const { connectors } = getDefaultWallets({
   appName: 'Crypto Devs Dashboard',
-  projectId: '2f815e135e0f64a9447f0d41f58caa1f', // Get from https://cloud.walletconnect.com
-  chains
-})
+  projectId: '2f815e135e0f64a9447f0d41f58caa1f', // Make sure this is your real Project ID
+  chains: [sepolia],
+});
 
+// Create the final config for Wagmi
 const wagmiConfig = createConfig({
   autoConnect: true,
   connectors,
-  publicClient
-})
+  publicClient: config.publicClient,
+});
+
 
 export default function App({ Component, pageProps }) {
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains}>
+    <WagmiProvider config={wagmiConfig}>
+      <RainbowKitProvider chains={[sepolia]}>
         <ChakraProvider>
           <Component {...pageProps} />
         </ChakraProvider>
       </RainbowKitProvider>
-    </WagmiConfig>
+    </WagmiProvider>
   )
 }
