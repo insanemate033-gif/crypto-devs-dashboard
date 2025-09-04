@@ -1,7 +1,10 @@
 import { VStack, Heading, Text, Box } from '@chakra-ui/react';
 import Layout from '../components/Layout';
-import StatsCards from '../components/StatsCards';
-import ActionButtons from '../components/ActionButtons';
+import dynamic from 'next/dynamic';
+
+// Dynamically import components that need a browser environment
+const StatsCards = dynamic(() => import('../components/StatsCards'), { ssr: false });
+const ActionButtons = dynamic(() => import('../components/ActionButtons'), { ssr: false });
 
 export default function Home() {
   return (
@@ -16,6 +19,7 @@ export default function Home() {
         
         <Box h="1px" bg="gray.200" />
         
+        {/* These components will now only render on the client-side */}
         <StatsCards />
         
         <Box h="1px" bg="gray.200" />
