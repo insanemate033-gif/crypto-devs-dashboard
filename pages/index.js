@@ -1,18 +1,16 @@
 import { useState, useEffect } from 'react';
 import { VStack, Heading, Text, Box } from '@chakra-ui/react';
-import Layout from '../components/Layout';
-import StatsCards from '../components/StatsCards';
-import ActionButtons from '../components/ActionButtons';
+import Layout from '@/components/Layout';
+import StatsCards from '@/components/StatsCards';
+import ActionButtons from '@/components/ActionButtons';
 
 export default function Home() {
-  // This state is used to ensure components only render on the client side
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // Render a placeholder or nothing until the component is mounted on the client
   if (!isMounted) {
     return null;
   }

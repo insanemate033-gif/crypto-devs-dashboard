@@ -1,11 +1,10 @@
 import { useContractWrite, useAccount, useContractRead } from 'wagmi';
-import { Button, VStack, useToast } from '@chakra-ui/react';
+import { Button, VStack } from '@chakra-ui/react';
 import { parseEther } from 'viem';
-import { WHITELIST_CONTRACT_ADDRESS, NFT_CONTRACT_ADDRESS, WHITELIST_ABI, NFT_ABI } from '../constants';
+import { WHITELIST_CONTRACT_ADDRESS, NFT_CONTRACT_ADDRESS, WHITELIST_ABI, NFT_ABI } from '@/constants';
 
 export default function ActionButtons() {
   const { address, isConnected } = useAccount();
-  const toast = useToast();
   
   const { data: isWhitelisted, refetch } = useContractRead({
     address: WHITELIST_CONTRACT_ADDRESS,
@@ -20,8 +19,8 @@ export default function ActionButtons() {
     abi: WHITELIST_ABI,
     functionName: 'addAddressToWhitelist',
     onSuccess: () => {
-      toast({ title: "Successfully joined whitelist!", status: "success", duration: 5000 });
-      refetch();
+      // Refetch the whitelist status after a successful transaction
+      refetch(); 
     }
   });
   
@@ -30,9 +29,6 @@ export default function ActionButtons() {
     abi: NFT_ABI,
     functionName: 'mint',
     value: isWhitelisted ? BigInt(0) : parseEther('0.01'),
-    onSuccess: () => {
-      toast({ title: "NFT minted successfully!", status: "success", duration: 5000 });
-    }
   });
 
   if (!isConnected) return null;
