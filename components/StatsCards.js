@@ -1,16 +1,14 @@
 import { useContractRead } from 'wagmi';
 import { Box, Text, Heading, SimpleGrid } from '@chakra-ui/react';
-import { WHITELIST_CONTRACT_ADDRESS, NFT_CONTRACT_ADDRESS, WHITELIST_ABI, NFT_ABI } from '../utils/constants';
+import { WHITELIST_CONTRACT_ADDRESS, NFT_CONTRACT_ADDRESS, WHITELIST_ABI, NFT_ABI } from '../constants';
 
 export default function StatsCards() {
-  // Read whitelist data
   const { data: numWhitelisted } = useContractRead({
     address: WHITELIST_CONTRACT_ADDRESS,
     abi: WHITELIST_ABI,
     functionName: 'numAddressesWhitelisted',
   });
   
-  // Read NFT data
   const { data: totalSupply } = useContractRead({
     address: NFT_CONTRACT_ADDRESS,
     abi: NFT_ABI,

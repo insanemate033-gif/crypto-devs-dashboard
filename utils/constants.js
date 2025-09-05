@@ -6,4 +6,3 @@ export const NFT_CONTRACT_ADDRESS = "0x75FeF28cF013BB0426b440dE4E8D90Af3dFbF211"
 export const WHITELIST_ABI = require('../contracts/WhitelistABI.json').abi;
 export const NFT_ABI = require('../contracts/CryptoDevsABI.json').abi;
 
-export const NFT_PRICE = "0.01" // ETH
